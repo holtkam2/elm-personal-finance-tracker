@@ -1,0 +1,25 @@
+{
+  "name": "elm-personal-finance-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "elm.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "elm": "elm make src/Main.elm --output=elm.js",
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holtkam2/elm-personal-finance-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/holtkam2/elm-personal-finance-tracker/issues"
+  },
+  "homepage": "https://github.com/holtkam2/elm-personal-finance-tracker#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "lodash": "^4.17.11"
+  }
+}
