@@ -1,43 +1,31 @@
 module Main exposing (main)
 
-import Article
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-
+import Settings exposing (..)
+import Results exposing (..)
 
 
 -- MODEL
-
-type alias Article = 
-    { title : String
-    , description : String
-    , body : String
-    , tags : List String
-    , slug : String
-    }
-
-
 type alias Model =
     { tags : List String
     , selectedTag : String
-    , allArticles : List Article
+    , allArticles : List String
     }
 
 
 initialModel : Model
 initialModel = 
-    { tags = Article.tags
+    { tags = ["tag1", "tag2"]
     , selectedTag = "elm"
-    , allArticles = Article.feed
+    , allArticles = []
     }
 
 
 
 -- UPDATE
-
-
 type alias Msg =
     { description : String
     , data : String
@@ -55,75 +43,16 @@ update msg model =
 
 
 -- VIEW
+view model = 
+  div [] [
+    div [] [Settings.view model],
+    div [] [Results.view model]
+  ]
 
-
-view model =
-    let
-        articles =
-            List.filter (\article -> List.member model.selectedTag article.tags)
-                model.allArticles
-
-        feed =
-            List.map viewArticle articles
-    in
-    div [ class "home-page" ]
-        [ viewBanner
-        , div [ class "container page" ]
-            [ div [ class "row" ]
-                [ div [ class "col-md-9" ] feed
-                , div [ class "col-md-3" ]
-                    [ div [ class "sidebar" ]
-                        [ p [] [ text "Popular Tags" ]
-                        , viewTags model
-                        ]
-                    ]
-                ]
-            ]
-        ]
-
-
-viewArticle article =
-    div [ class "article-preview" ]
-        [ h1 [] [ text article.title ]
-        , p [] [ text article.description ]
-        , span [] [ text "Read more..." ]
-        ]
-
-
-viewBanner =
-    div [ class "banner" ]
-        [ div [ class "container" ]
-            [ h1 [ class "logo-font" ] [ text "conduit" ]
-            , p [] [ text "A place to share your knowledge." ]
-            ]
-        ]
-
-
-viewTag selectedTagName tagName =
-    let
-        otherClass =
-            if tagName == selectedTagName then
-                "tag-selected"
-
-            else
-                "tag-default"
-    in
-    button
-        [ class ("tag-pill " ++ otherClass)
-        , onClick { description = "ClickedTag", data = tagName }
-        ]
-        [ text tagName ]
-
-
-viewTags : Model -> Html Msg
-viewTags model =
-    div [ class "tag-list" ] (List.map (viewTag model.selectedTag) model.tags)
 
 
 
 -- MAIN
-
-
 main : Program () Model Msg
 main =
     Browser.sandbox
